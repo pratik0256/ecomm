@@ -1,0 +1,90 @@
+{%  extends "base/base.html" %}
+
+{% block start %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .total {
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        #coupon-input {
+            margin-right: 10px;
+        }
+
+        #apply-coupon-btn {
+            padding: 8px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Shopping Cart</h2>
+
+    <table id="cart-table">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Sample product row -->
+            <tr data-product-id="1">
+                <td>Product 1</td>
+                <td><input type="number" value="1" min="1" /></td>
+                <td>$19.99</td>
+                <td><a href="{% url 'remove_cart' cart_item_uid %}"></td>
+            </tr>
+            <!-- Add more product rows as needed -->
+        </tbody>
+    </table>
+
+    <div class="total">
+        Total: $<span id="cart-total">19.99</span>
+    </div>
+
+    <label for="coupon-input">Coupon Code:</label>
+    <input type="text" id="coupon-input" placeholder="Enter coupon code">
+    <button id="apply-coupon-btn" onclick="applyCoupon()">Apply Coupon</button>
+
+    <script>
+        function removeProduct(productId) {
+            // Implement remove product functionality
+            // Update the table and total accordingly
+            alert('Product removed: ' + productId);
+        }
+
+        function applyCoupon() {
+            // Implement coupon code functionality
+            // Update the total after applying the coupon
+            alert('Coupon applied!');
+        }
+    </script>
+</body>
+</html>
+{%  endblock  %}

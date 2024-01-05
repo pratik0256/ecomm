@@ -1,90 +1,137 @@
-{%  extends "base/base.html" %}
-
+{% extends "base/base.html" %}
+{% load static %}
 {% block start %}
 <!DOCTYPE html>
-<html lang="en">
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shopping Cart</title>
-    <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-        }
-
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
-
-        th {
-            background-color: #f2f2f2;
-        }
-
-        .total {
-            font-weight: bold;
-            font-size: 18px;
-        }
-
-        #coupon-input {
-            margin-right: 10px;
-        }
-
-        #apply-coupon-btn {
-            padding: 8px;
-            cursor: pointer;
-        }
-    </style>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>hello</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="">
 </head>
 <body>
 
-    <h2>Shopping Cart</h2>
+{% block content %}
+<section class="section-content padding-y">
+    <div class="container">
 
-    <table id="cart-table">
-        <thead>
-            <tr>
-                <th>Product</th>
-                <th>Quantity</th>
-                <th>Price</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            <!-- Sample product row -->
-            <tr data-product-id="1">
-                <td>Product 1</td>
-                <td><input type="number" value="1" min="1" /></td>
-                <td>$19.99</td>
-                <td><a href="{% url 'remove_cart' cart_item_uid %}"></td>
-            </tr>
-            <!-- Add more product rows as needed -->
-        </tbody>
-    </table>
+        <div class="row">
+            <main class="col-md-9">
+                <div class="card">
 
-    <div class="total">
-        Total: $<span id="cart-total">19.99</span>
-    </div>
+                    <table class="table table-borderless table-shopping-cart">
+                        <thead class="text-muted">
+                        <tr class="small text-uppercase">
+                            <th scope="col">Product</th>
+                            <th scope="col" width="120">Quantity</th>
+                            <th scope="col" width="120">Price</th>
+                            <th scope="col" class="text-right" width="200"> </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% if cart_items %}
+                            {% for cart_item in cart_items %}
+                                <tr>
+                                    <td>
+                                        <figure class="itemside">
+                                            <div class="aside"><img src="images/items/1.jpg" class="img-sm"></div>
+                                            <figcaption class="info">{{ cart_item.product.name }}
+                                                <p class="text-muted small">Size: XL, Color: blue, <br> Brand: Gucci</p>
+                                            </figcaption>
+                                        </figure>
+                                    </td>
+                                    <td>
+                                        <select class="form-control">
+                                            <option>{{ cart_item.quantity }}</option>
+                                            <option>1</option>
+                                            <option>2</option>
+                                            <option>3</option>
+                                            <option>4</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <div class="price-wrap">
+                                            <var class="price">{{ cart_item.get_product_price }}00</var>
+                                            <small class="text-muted"></small>
+                                        </div>
+                                    </td>
+                                    <td class="text-right">
+                                        <a data-original-title="Save to Wishlist" title="" href="" class="btn btn-light" data-toggle="tooltip"> <i class="fa fa-heart"></i></a>
+                                        <a href="" class="btn btn-light"> Remove</a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan="4">
+                                    <p>Your cart is empty.</p>
+                                </td>
+                            </tr>
+                        {% endif %}
+                        </tbody>
+                    </table>
 
-    <label for="coupon-input">Coupon Code:</label>
-    <input type="text" id="coupon-input" placeholder="Enter coupon code">
-    <button id="apply-coupon-btn" onclick="applyCoupon()">Apply Coupon</button>
+                    <div class="card-body border-top">
+                        <a href="#" class="btn btn-primary float-md-right"> Make Purchase <i class="fa fa-chevron-right"></i> </a>
+                        <a href="#" class="btn btn-light"> <i class="fa fa-chevron-left"></i> Continue shopping </a>
+                    </div>
+                </div> <!-- card.// -->
 
-    <script>
-        function removeProduct(productId) {
-            // Implement remove product functionality
-            // Update the table and total accordingly
-            alert('Product removed: ' + productId);
-        }
+                <div class="alert alert-success mt-3">
+                    <p class="icontext"><i class="icon text-success fa fa-truck"></i> Free Delivery within 1-2 weeks</p>
+                </div>
 
-        function applyCoupon() {
-            // Implement coupon code functionality
-            // Update the total after applying the coupon
-            alert('Coupon applied!');
-        }
-    </script>
+            </main> <!-- col.// -->
+            <aside class="col-md-3">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <form>
+                            <div class="form-group">
+                                <label>Have coupon?</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" name="" placeholder="Coupon code">
+                                    <span class="input-group-append">
+                                        <button class="btn btn-primary">Apply</button>
+                                    </span>
+                                </div>
+                            </div>
+                        </form>
+                    </div> <!-- card-body.// -->
+                </div> <!-- card .// -->
+                <div class="card">
+                    <div class="card-body">
+                        {% comment %}
+                        <dl class="dlist-align">
+                            <dt>Total price:</dt>
+                            <dd class="text-right">USD 568</dd>
+                        </dl>
+                        <dl class="dlist-align">
+                            <dt>Discount:</dt>
+                            <dd class="text-right">USD 658</dd>
+                        </dl>
+                        <dl class="dlist-align"> {% endcomment %}
+                        <dt>Total:</dt>{{ total_price }}
+                        <dd class="text-right h5"><strong></strong></dd>
+                        </dl>
+                        <hr>
+                        <p class="text-center mb-3">{{ total_quantity }}
+                            <img src="images/misc/payments.png" height="26">
+                        </p>
+                        {% endblock %}
+                    </div> <!-- card-body.// -->
+                </div> <!-- card .// -->
+            </aside> <!-- col.// -->
+        </div>
+
+    </div> <!-- container .//  -->
+</section>
+
+{% endblock %}
 </body>
 </html>
-{%  endblock  %}

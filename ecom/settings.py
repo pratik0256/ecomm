@@ -151,3 +151,4 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'pratik.jadhav@ics-global.in'  # Replace with your Gmail address
 EMAIL_HOST_PASSWORD = 'pratik8530310399'  # Replace with your Gmail app password
+LOGIN_URL = 'login'

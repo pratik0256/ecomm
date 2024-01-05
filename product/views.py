@@ -2,11 +2,14 @@
 from django.shortcuts import redirect, render
 from product.models import Product 
 # Create your views here.
+
+
+
 def get_products(request , slug ):
-    
     
   
     try:
+        print("Slug:", slug)
         product = Product.objects.get(slug = slug)
         context = {'product':product}
         if request.GET.get('size'):

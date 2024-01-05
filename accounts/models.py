@@ -39,7 +39,7 @@ class Cart(BaseModel):
                 price.append(size_variant_price)
                 
         return sum(price)   
-            
+
     
     
     
@@ -64,6 +64,8 @@ class CartItems(BaseModel):
             size_variant_price = self.size_variant.price
             price.append(size_variant_price)
         return sum(price)
+    
+        
         
 
 @receiver(post_save , sender = User)

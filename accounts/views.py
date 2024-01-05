@@ -99,7 +99,32 @@ def remove_cart(request , cart_item_uid):
 
 def cart(request):
     context = {'cart': Cart.objects.filter(is_paid = False , user=request.user)}
-    return render(request , 'account/cart.html', context)
+    return render(request , 'accounts/cart.html', )
 
 
 
+import logging
+
+logger = logging.getLogger(__name__)
+
+def cart_view(request):
+    user_cart = Cart.objects.filter(user=request.user, is_paid=False).first()
+    logger.debug(f'user_cart: {user_cart}')
+
+    if user_cart:
+        cart_items = CartItems.objects.filter(cart=user_cart)
+        logger.debug(f'cart_items: {cart_items}')
+
+        total_price = sum(cart_item.get_product_price() for cart_item in cart_items)
+        total_quantity = sum(cart_item.quantity for cart_item in cart_items)
+        logger.debug(f'total_price: {total_price}, total_quantity: {total_quantity}')
+
+        context = {
+            'cart_items': cart_items,
+            'total_price': total_price,
+            'total_quantity': total_quantity,
+        }
+
+        return render(request, 'accounts/cart.html', context)
+    else:
+        return render(request, 'accounts/cart.html', {'cart_items': None, 'total_price': 0, 'total_quantity': 0})
